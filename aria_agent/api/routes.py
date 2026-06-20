@@ -1,3 +1,5 @@
+import anyio
+import anyio.to_thread
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -5,10 +7,10 @@ from typing import Optional
 
 from aria_agent.services.agent_service import AgentService
 
-# Initialize FastAPI application
+
 app = FastAPI(title="ARIA Standalone LangChain Agent")
 
-# Configure CORS Middleware
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -17,7 +19,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize Agent Service
+
 agent_service = AgentService()
 
 class QueryRequest(BaseModel):
@@ -26,7 +28,7 @@ class QueryRequest(BaseModel):
 
 @app.post("/api/query")
 async def execute_query(request: QueryRequest):
-    result = agent_service.execute_query(request.prompt)
+    result = await anyio.to_thread.run_sync(agent_service.execute_query, request.prompt)
     
     # Handle parsing or validation failure as an HTTP Exception
     if isinstance(result, dict) and result.get("error_type") == "parsing_error":

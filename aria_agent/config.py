@@ -7,8 +7,8 @@ logger = logging.getLogger("langchain-agent")
 
 # Environment Configurations
 SPRING_BOOT_BASE_URL = os.getenv("SPRING_BOOT_BASE_URL", "http://localhost:8080")
-OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://192.168.84.205:11434")
-MODEL_NAME = os.getenv("MODEL_NAME", "llama3.2:3b")
+OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://192.168.84.245:11434")
+MODEL_NAME = os.getenv("MODEL_NAME", "qwen3.5:9b")
 
 logger.info(f"SPRING_BOOT_BASE_URL set to: {SPRING_BOOT_BASE_URL}")
 logger.info(f"OLLAMA_BASE_URL set to: {OLLAMA_BASE_URL}")
